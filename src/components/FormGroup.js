@@ -2,7 +2,7 @@ import React from "react";
 import { useFormContext } from "react-hook-form";
 import { ErrorMessage } from "@hookform/error-message";
 
-export default function FormGroup({
+const FormGroup = ({
   id,
   name,
   label,
@@ -12,7 +12,7 @@ export default function FormGroup({
   IconComponent,
   options,
   errors,
-}) {
+}) => {
   const { register } = useFormContext();
   return (
     <div>
@@ -57,4 +57,6 @@ export default function FormGroup({
       </div>
     </div>
   );
-}
+};
+
+export default FormGroup;

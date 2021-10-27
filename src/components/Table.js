@@ -1,4 +1,4 @@
-export function Table() {
+const Table = () => {
   const people = [
     {
       id: 1,
@@ -120,4 +120,6 @@ export function Table() {
       </div>
     </div>
   );
-}
+};
+
+export default Table;

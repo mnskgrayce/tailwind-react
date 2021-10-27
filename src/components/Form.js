@@ -1,6 +1,7 @@
-import React, { useState } from "react";
-import { Controller, useForm, FormProvider } from "react-hook-form";
-import DatePicker from "react-datepicker";
+import React from "react";
+import { useForm, FormProvider } from "react-hook-form";
+import FormGroup from "./FormGroup";
+import ControllerDatePicker from "./ControllerDatePicker";
 
 import { UserCircleIcon } from "@heroicons/react/solid";
 import { MailIcon } from "@heroicons/react/solid";
@@ -8,18 +9,12 @@ import { LockClosedIcon } from "@heroicons/react/solid";
 import { PhoneIcon } from "@heroicons/react/solid";
 import { AcademicCapIcon } from "@heroicons/react/solid";
 
-import FormGroup from "./FormGroup";
-
-export function Form() {
+const Form = () => {
   const methods = useForm({
     criteriaMode: "all",
   });
 
   const { errors } = methods.formState;
-
-  // For the Date Picker
-  const [startDate, setStartDate] = useState(new Date());
-  const [endDate, setEndDate] = useState(new Date());
 
   // Handle submission
   const onSubmit = async (data) => {
@@ -95,69 +90,7 @@ export function Form() {
             errors={errors}
           />
 
-          <div className="flex items-center mx-auto w-full justify-center space-x-4">
-            <div className="flex-grow">
-              <label
-                htmlFor="startDate"
-                className="text-sm font-medium text-gray-700"
-              >
-                Start Date
-              </label>
-              <div className="mt-1">
-                <Controller
-                  name="startDate"
-                  control={methods.control}
-                  defaultValue={startDate}
-                  render={({ field: { onChange, value } }) => (
-                    <DatePicker
-                      selected={value}
-                      onChange={(date) => {
-                        onChange(date);
-                        setStartDate(date);
-                      }}
-                      selectsStart
-                      startDate={startDate}
-                      endDate={endDate}
-                      minDate={new Date()}
-                      nextMonthButtonLabel=">"
-                      previousMonthButtonLabel="<"
-                    />
-                  )}
-                />
-              </div>
-            </div>
-
-            <div className="flex-grow">
-              <label
-                htmlFor="endDate"
-                className="text-sm font-medium text-gray-700"
-              >
-                End Date
-              </label>
-              <div className="mt-1">
-                <Controller
-                  name="endDate"
-                  control={methods.control}
-                  defaultValue={endDate}
-                  render={({ field: { onChange, value } }) => (
-                    <DatePicker
-                      selected={value}
-                      onChange={(date) => {
-                        onChange(date);
-                        setEndDate(date);
-                      }}
-                      selectsEnd
-                      startDate={startDate}
-                      endDate={endDate}
-                      minDate={startDate}
-                      nextMonthButtonLabel=">"
-                      previousMonthButtonLabel="<"
-                    />
-                  )}
-                />
-              </div>
-            </div>
-          </div>
+          <ControllerDatePicker control={methods.control} />
 
           <div>
             <label
@@ -256,4 +189,6 @@ export function Form() {
       </FormProvider>
     </div>
   );
-}
+};
+
+export default Form;

@@ -1,7 +1,7 @@
-import { Form } from "../components/Form";
-import { Table } from "../components/Table";
+import Form from "../components/Form";
+import Table from "../components/Table";
 
-export function ComponentsPage() {
+const ComponentsPage = () => {
   return (
     <div className="container mx-auto px-4 py-8">
       <h1 className="text-center tracking-wider mb-4 md:mb-6 text-4xl md:text-5xl ">
@@ -23,4 +23,6 @@ export function ComponentsPage() {
       </div>
     </div>
   );
-}
+};
+
+export default ComponentsPage;
