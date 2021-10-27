@@ -1,4 +1,5 @@
 import { Form } from "../components/Form";
+import { Table } from "../components/Table";
 
 export function ComponentsPage() {
   return (
@@ -11,9 +12,13 @@ export function ComponentsPage() {
         v.7
       </p>
 
-      <div className="grid grid-cols-1 space-y-8 divide-y">
+      <div className="flex flex-col space-y-8 divide-y divide-gray-300">
         <div className="pt-8">
           <Form />
+        </div>
+
+        <div className="pt-8">
+          <Table />
         </div>
       </div>
     </div>

@@ -7,7 +7,7 @@ function App() {
   return (
     <BrowserRouter>
       <div className="App">
-        <div id="page-body">
+        <div id="page-body" className="bg-indigo-50">
           <Switch>
             <Route path="/components" component={ComponentsPage} />
           </Switch>

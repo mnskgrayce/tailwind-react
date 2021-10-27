@@ -1,18 +1,27 @@
-import { useForm, FormProvider } from "react-hook-form";
+import React, { useState } from "react";
+import { Controller, useForm, FormProvider } from "react-hook-form";
+import DatePicker from "react-datepicker";
 
 import { UserCircleIcon } from "@heroicons/react/solid";
 import { MailIcon } from "@heroicons/react/solid";
 import { LockClosedIcon } from "@heroicons/react/solid";
 import { PhoneIcon } from "@heroicons/react/solid";
+import { AcademicCapIcon } from "@heroicons/react/solid";
 
-import InputGroup from "./InputGroup";
+import FormGroup from "./FormGroup";
 
 export function Form() {
   const methods = useForm({
     criteriaMode: "all",
   });
+
   const { errors } = methods.formState;
 
+  // For the Date Picker
+  const [startDate, setStartDate] = useState(new Date());
+  const [endDate, setEndDate] = useState(new Date());
+
+  // Handle submission
   const onSubmit = async (data) => {
     console.log(data);
   };
@@ -21,35 +30,35 @@ export function Form() {
     <div className="bg-white mx-auto w-full max-w-xl px-6 py-8 shadow-md rounded">
       <FormProvider {...methods}>
         <form className="space-y-6" onSubmit={methods.handleSubmit(onSubmit)}>
-          <InputGroup
-            id="username"
-            name="username"
-            label="Username"
+          <FormGroup
+            id="fullName"
+            name="fullName"
+            label="Full Name"
             type="text"
-            helper="Required"
-            placeholder="mnskgrayce"
             IconComponent={<UserCircleIcon className="h-5 w-5 text-gray-300" />}
             options={{
               required: true,
-              minLength: {
-                value: 2,
-                message: "Username must have at least two characters.",
+              pattern: {
+                value: /^[A-Za-z]+(?: [A-Za-z]+)+$/i,
+                message: "Name must be two or more words separated by a space.",
               },
             }}
             errors={errors}
           />
 
-          <InputGroup
+          <FormGroup
             id="email"
             name="email"
             label="Email"
             type="email"
+            helper="Required"
+            placeholder="mnskgrayce@gmail.com"
             isRequired={true}
             IconComponent={<MailIcon className="h-5 w-5 text-gray-300" />}
             options={{ required: true }}
           />
 
-          <InputGroup
+          <FormGroup
             id="password"
             name="password"
             label="Password"
@@ -60,7 +69,7 @@ export function Form() {
             options={{ required: true }}
           />
 
-          <InputGroup
+          <FormGroup
             id="confirmPassword"
             name="confirmPassword"
             label="Confirm Password"
@@ -71,7 +80,7 @@ export function Form() {
             options={{ required: true }}
           />
 
-          <InputGroup
+          <FormGroup
             id="phone"
             name="phone"
             label="Phone Number"
@@ -86,6 +95,70 @@ export function Form() {
             errors={errors}
           />
 
+          <div className="flex items-center mx-auto w-full justify-center space-x-4">
+            <div className="flex-grow">
+              <label
+                htmlFor="startDate"
+                className="text-sm font-medium text-gray-700"
+              >
+                Start Date
+              </label>
+              <div className="mt-1">
+                <Controller
+                  name="startDate"
+                  control={methods.control}
+                  defaultValue={startDate}
+                  render={({ field: { onChange, value } }) => (
+                    <DatePicker
+                      selected={value}
+                      onChange={(date) => {
+                        onChange(date);
+                        setStartDate(date);
+                      }}
+                      selectsStart
+                      startDate={startDate}
+                      endDate={endDate}
+                      minDate={new Date()}
+                      nextMonthButtonLabel=">"
+                      previousMonthButtonLabel="<"
+                    />
+                  )}
+                />
+              </div>
+            </div>
+
+            <div className="flex-grow">
+              <label
+                htmlFor="endDate"
+                className="text-sm font-medium text-gray-700"
+              >
+                End Date
+              </label>
+              <div className="mt-1">
+                <Controller
+                  name="endDate"
+                  control={methods.control}
+                  defaultValue={endDate}
+                  render={({ field: { onChange, value } }) => (
+                    <DatePicker
+                      selected={value}
+                      onChange={(date) => {
+                        onChange(date);
+                        setEndDate(date);
+                      }}
+                      selectsEnd
+                      startDate={startDate}
+                      endDate={endDate}
+                      minDate={startDate}
+                      nextMonthButtonLabel=">"
+                      previousMonthButtonLabel="<"
+                    />
+                  )}
+                />
+              </div>
+            </div>
+          </div>
+
           <div>
             <label
               htmlFor="specialty"
@@ -93,11 +166,14 @@ export function Form() {
             >
               Specialty
             </label>
-            <div className="mt-1">
+            <div className="mt-1 relative">
+              <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                <AcademicCapIcon className="h-5 w-5 text-gray-300" />
+              </div>
               <select
                 id="specialty"
                 name="specialty"
-                className=""
+                className="pl-10"
                 {...methods.register("specialty")}
               >
                 <option value="SE">Software Engineering</option>
@@ -114,8 +190,8 @@ export function Form() {
                 id="undergraduate"
                 name="program"
                 value="Undergraduate"
-                className="rounded-full"
                 defaultChecked
+                className="rounded-full"
                 {...methods.register("program")}
               />
               <label
@@ -133,7 +209,7 @@ export function Form() {
                 name="program"
                 value="Graduate"
                 className="rounded-full"
-                {...methods.register("terms-and-privacy")}
+                {...methods.register("program")}
               />
               <label
                 htmlFor="graduate"

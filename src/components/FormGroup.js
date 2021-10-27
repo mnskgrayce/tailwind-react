@@ -2,7 +2,7 @@ import React from "react";
 import { useFormContext } from "react-hook-form";
 import { ErrorMessage } from "@hookform/error-message";
 
-export default function InputGroup({
+export default function FormGroup({
   id,
   name,
   label,
